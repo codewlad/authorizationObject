@@ -1,9 +1,12 @@
-import { Container, Logo } from './styles';
+import { BackButton } from '../BackButton';
+import { BackButtonSpace, Container, Logo, UserButton } from './styles';
 
-export function Header() {
+export function Header({ backButtonDisplay }) {
 	return (
 		<Container>
+			<BackButtonSpace><BackButton display={backButtonDisplay} /></BackButtonSpace>
 			<Logo />
+			<UserButton />
 		</Container>
 	);
 }

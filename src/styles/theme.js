@@ -3,7 +3,7 @@ export const themeLight = {
 		WHITE: '#FFFFFF',
 		BLACK: '#000000',
 
-		DEFAULT: '#3A474F',
+		DEFAULT: '#E1E1E1',
 
 		GRAY_100: '#E1E1E6',
 
@@ -12,6 +12,7 @@ export const themeLight = {
 
 		BACKGROUND: '#323232',
 		BG_HEADER: '#3E3E3E',
+		BORDER: '#626262',
 
 		TRIJAY_COLOR: '#AA0000',
 	},
@@ -28,5 +29,6 @@ export const themeLight = {
 		UBUNTU_14: 'normal 1.4rem/140% Ubuntu, sans-serif',
 		UBUNTU_16: 'normal 1.6rem/140% Ubuntu, sans-serif',
 		UBUNTU_21: 'bold 2.1rem/140% Ubuntu, sans-serif',
+		UBUNTU_32: 'bold 3.2rem/140% Ubuntu, sans-serif',
 	},
 };

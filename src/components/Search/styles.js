@@ -4,7 +4,16 @@ export const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 1.5rem;
+	width: 100%;
+	margin-top: 8rem;
+	padding: 0 1rem;
+`;
+
+export const Content = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;	
 
 	max-width: 50rem;
 	width: 100%;
@@ -17,7 +26,7 @@ export const Container = styled.div`
 	border-radius: 4px;
 `;
 
-export const Content = styled.input`
+export const InputSearch = styled.input`
 	display: flex;
 	align-items: center;
 	justify-content: left;

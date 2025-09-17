@@ -21,14 +21,15 @@ export default createGlobalStyle`
         color: ${({ theme }) => theme.COLORS.DEFAULT};
         min-width: 360px;
 
-        @media (max-width: 450px) {
-            padding: 1rem;
+        @media (max-width: 520px) {
+            padding: 0;
         }
     }
 
     h2 {
-        color: ${({ theme }) => theme.COLORS.BLUE_200};
-        font: ${({ theme }) => theme.FONTS.UBUNTU_21};
+        color: ${({ theme }) => theme.COLORS.DEFAULT};
+        font: ${({ theme }) => theme.FONTS.UBUNTU_32};
+        width: 100%;
     }
 
     ::-webkit-scrollbar {
@@ -56,5 +57,9 @@ export default createGlobalStyle`
     ::-ms-scrollbar-thumb {
         background-color: ${({ theme }) => theme.COLORS.BLUE_100};
         border-radius: 0.5rem;
+    }
+
+    a{
+        text-decoration: none;
     }
 `;
