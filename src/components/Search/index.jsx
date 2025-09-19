@@ -11,6 +11,7 @@ export function Search({ placeholder, value, onChange }) {
 					placeholder={placeholder}
 					value={value}
 					onChange={onChange}
+					id='search'
 				/>
 			</Content>
 		</Container>

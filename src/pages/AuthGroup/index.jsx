@@ -1,26 +1,29 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ActivitiesContext } from '../../context/activitiesContext';
+import { AuthGroupContext } from '../../context/authGroupContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
-import { AddModal } from '../../components/AddModal';
+import { AuthGroupModal } from '../../components/AuthGroupModal';
 
 import { Container, Main } from './styles';
 
-export function ActivityPage() {
+export function AuthGroupPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { activities, deleteRow, addRow, updateRow } = useContext(ActivitiesContext);
+	const { authGroup, deleteRow, addRow, updateRow } = useContext(AuthGroupContext);
 
 	const columnLabels = {
-		actvt: "Atividade",
-		actvtName: "Nome da Atividade"
+		auth: "Autenticação",
+		group: "Grupo",
+		object: "Objeto",
+		field: "Campo",
+		value: "Valor"
 	};
 
-	const idKeys = ["actvt"];
+	const idKeys = ["project"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -57,23 +60,29 @@ export function ActivityPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={activities}
+					data={authGroup}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
 				/>
 			</Main>
 
-			<AddModal
+			<AuthGroupModal
 				visible={modalOpen}
 				onClose={closeModal}
 				onSubmit={handleSubmit}
-				fields={fieldKeys}
 				values={formData}
 				setValues={setFormData}
-				disabledKeys={editing ? idKeys : []}
-				idKeys={idKeys}
+				fieldsConfig={{
+					auth: { type: 'text', source: '', label: 'Autorização' },
+					group: { type: 'select', source: 'groups', label: 'Grupo' },
+					object: { type: 'select', source: 'objects', label: 'Objeto' },
+					field: { type: 'select', source: 'fields', label: 'Campo' },
+					value: { type: 'text', source: '', label: 'Valor' }
+				}}
+				disabledKeys={editing ? ['project'] : []}
 			/>
+
 		</Container>
 	);
 }

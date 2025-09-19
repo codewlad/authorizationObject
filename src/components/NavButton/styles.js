@@ -23,6 +23,7 @@ export const Button = styled.div`
 	border: 1px solid #404040;
 	border-radius: 4px;
 	transition: 0.1s;
+	cursor: pointer;
 
 	&:hover {
 		background-color: ${({ theme }) => theme.COLORS.TRIJAY_COLOR};

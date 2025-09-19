@@ -1,13 +1,13 @@
 import { Container, Button } from './styles';
 
-export function NavButton({ categories }) {
+export function NavButton({ categories, onNavigate }) {
 	return (
 		<Container>
-			{
-				categories && categories.length > 0 && categories.map((item, index) =>
-					<Button key={index}>{item.categoryName}</Button>)
-			}
+			{categories.map((item, index) => (
+				<Button key={index} onClick={() => onNavigate(item.categoryName)}>
+					{item.categoryName}
+				</Button>
+			))}
 		</Container>
-
-	)
-};
+	);
+}

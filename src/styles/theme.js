@@ -14,7 +14,7 @@ export const themeLight = {
 		BG_HEADER: '#3E3E3E',
 		BORDER: '#626262',
 
-		TRIJAY_COLOR: '#AA0000',
+		TRIJAY_COLOR: '#810000ff',
 	},
 	FONTS: {
 		ROBOTO_12: 'normal 1.2rem/100% Roboto Slab, serif',

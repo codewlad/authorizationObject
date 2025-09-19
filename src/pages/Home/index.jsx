@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { Header } from '../../components/Header';
 import { HomeSection } from '../../components/HomeSection';
@@ -24,6 +24,27 @@ export function HomePage() {
 		};
 	}).filter(categorie => categorie.menus.length > 0);
 
+	const sectionRefs = useRef({});
+
+	filteredCategories.forEach((cat) => {
+		if (!sectionRefs.current[cat.categoryName]) {
+			sectionRefs.current[cat.categoryName] = React.createRef();
+		}
+	});
+
+	const scrollToCategory = (categoryName) => {
+		const ref = sectionRefs.current[categoryName];
+		if (ref?.current) {
+			const offset = 7 * 10;
+			const top = ref.current.getBoundingClientRect().top + window.scrollY - offset;
+
+			window.scrollTo({
+				top,
+				behavior: 'smooth'
+			});
+		}
+	};
+
 	return (
 		<Container>
 			<Header backButtonDisplay={false} />
@@ -32,13 +53,14 @@ export function HomePage() {
 				value={search}
 				onChange={(e) => setSearch(e.target.value)}
 			/>
-			<NavButton categories={filteredCategories} />
+			<NavButton categories={filteredCategories} onNavigate={scrollToCategory} />
 			{filteredCategories.map((categorie, index) => (
-				<HomeSection
-					title={categorie.categoryName}
-					menus={categorie.menus}
-					key={index}
-				/>
+				<div ref={sectionRefs.current[categorie.categoryName]} key={index}>
+					<HomeSection
+						title={categorie.categoryName}
+						menus={categorie.menus}
+					/>
+				</div>
 			))}
 		</Container>
 	);

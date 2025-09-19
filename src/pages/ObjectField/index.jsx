@@ -1,26 +1,26 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ActivitiesContext } from '../../context/activitiesContext';
+import { ObjectFieldContext } from '../../context/objectFieldContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
-import { AddModal } from '../../components/AddModal';
+import { ObjectFieldModal } from '../../components/ObjectFieldModal';
 
 import { Container, Main } from './styles';
 
-export function ActivityPage() {
+export function ObjectFieldPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { activities, deleteRow, addRow, updateRow } = useContext(ActivitiesContext);
+	const { objectField, deleteRow, addRow, updateRow } = useContext(ObjectFieldContext);
 
 	const columnLabels = {
-		actvt: "Atividade",
-		actvtName: "Nome da Atividade"
+		object: "Objeto de autorização",
+		field: "Campo"
 	};
 
-	const idKeys = ["actvt"];
+	const idKeys = ["object", "field"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -57,23 +57,26 @@ export function ActivityPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={activities}
+					data={objectField}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
 				/>
 			</Main>
 
-			<AddModal
+			<ObjectFieldModal
 				visible={modalOpen}
 				onClose={closeModal}
 				onSubmit={handleSubmit}
-				fields={fieldKeys}
 				values={formData}
 				setValues={setFormData}
-				disabledKeys={editing ? idKeys : []}
-				idKeys={idKeys}
+				fieldsConfig={{
+					object: { type: 'select', source: 'objects', label: 'Objeto de autorização' },
+					field: { type: 'select', source: 'fields', label: 'Campo' }
+				}}
+				disabledKeys={editing ? ['object', 'field'] : []}
 			/>
+
 		</Container>
 	);
 }

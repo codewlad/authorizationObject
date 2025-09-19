@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ActivitiesContext } from '../../context/activitiesContext';
+import { FieldsContext } from '../../context/fieldsContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
@@ -9,18 +9,20 @@ import { AddModal } from '../../components/AddModal';
 
 import { Container, Main } from './styles';
 
-export function ActivityPage() {
+export function FieldPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { activities, deleteRow, addRow, updateRow } = useContext(ActivitiesContext);
+	const { fields, deleteRow, addRow, updateRow } = useContext(FieldsContext);
 
 	const columnLabels = {
-		actvt: "Atividade",
-		actvtName: "Nome da Atividade"
+		field: "Atividade",
+		fieldName: "Nome da Atividade",
+		ref_tab: "Tabela de Referência",
+		ref_column: "Coluna de Referência"
 	};
 
-	const idKeys = ["actvt"];
+	const idKeys = ["field"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -57,7 +59,7 @@ export function ActivityPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={activities}
+					data={fields}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}

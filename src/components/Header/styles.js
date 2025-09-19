@@ -11,10 +11,10 @@ export const Container = styled.header`
 
 	width: 100%;
 	height: 6rem;
-	padding: 0 4.5rem;
+	padding: 0 2rem;
 
 	background-color: #3e3e3e;
-	box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 4px 0px;
+	box-shadow: #00000033 0px 5px 4px 0px;
 
 	@media (max-width: 520px) {
 		padding: 0 1rem;

@@ -121,7 +121,7 @@ export const Row = styled.div`
 export const RowData = styled.div`
 	display: flex;
 	width: 100%;
-	gap: 1rem;
+	row-gap: 1rem;
 
 	@media (max-width: 1000px) {
 		flex-direction: column;
@@ -139,4 +139,3 @@ export const Spacer = styled.div`
 	width: 10.4rem;
 	padding: 0 1rem;
 `
-

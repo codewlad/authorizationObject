@@ -1,26 +1,27 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ActivitiesContext } from '../../context/activitiesContext';
+import { ProjectsContext } from '../../context/projectsContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
-import { AddModal } from '../../components/AddModal';
+import { ProjectModal } from '../../components/ProjectModal';
 
 import { Container, Main } from './styles';
 
-export function ActivityPage() {
+export function ProjectPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { activities, deleteRow, addRow, updateRow } = useContext(ActivitiesContext);
+	const { projects, deleteRow, addRow, updateRow } = useContext(ProjectsContext);
 
 	const columnLabels = {
-		actvt: "Atividade",
-		actvtName: "Nome da Atividade"
+		project: "Projeto",
+		projectName: "Nome do projeto",
+		manager: "Gerente"
 	};
 
-	const idKeys = ["actvt"];
+	const idKeys = ["project"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -57,23 +58,27 @@ export function ActivityPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={activities}
+					data={projects}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
 				/>
 			</Main>
 
-			<AddModal
+			<ProjectModal
 				visible={modalOpen}
 				onClose={closeModal}
 				onSubmit={handleSubmit}
-				fields={fieldKeys}
 				values={formData}
 				setValues={setFormData}
-				disabledKeys={editing ? idKeys : []}
-				idKeys={idKeys}
+				fieldsConfig={{
+					project: { type: 'text', source: 'projects', label: 'Projeto' },
+					projectName: { type: 'text', source: 'projectsName', label: 'Nome do projeto' },
+					manager: { type: 'select', source: 'groups', label: 'Manager' }
+				}}
+				disabledKeys={editing ? ['project'] : []}
 			/>
+
 		</Container>
 	);
 }
