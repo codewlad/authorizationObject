@@ -15,10 +15,11 @@ import { ObjectPage } from './pages/Object';
 import { ProjectPage } from './pages/Project';
 import { ObjectFieldPage } from './pages/ObjectField';
 import { AuthGroupPage } from './pages/AuthGroup';
+import { UserPage } from './pages/User';
+import { UserGroupPage } from './pages/UserGroup';
 
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
-
 		<ThemeProvider theme={themeLight}>
 			<GlobalStyles />
 			<BrowserRouter>
@@ -32,6 +33,8 @@ createRoot(document.getElementById('root')).render(
 						<Route path="/project" element={<ProjectPage />} />
 						<Route path="/object_field" element={<ObjectFieldPage />} />
 						<Route path="/auth_group" element={<AuthGroupPage />} />
+						<Route path="/user" element={<UserPage />} />
+						<Route path="/user_group" element={<UserGroupPage />} />
 					</Routes>
 				</AppProviders>
 			</BrowserRouter>

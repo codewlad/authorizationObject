@@ -1,3 +1,5 @@
+export const userLogged = 4;
+
 export const categories = [
     {
         categoryName: "Autorização",
@@ -46,6 +48,16 @@ export const categories = [
                 menu: "Grupo de acesso",
                 description: "Cadastro de grupo de acesso",
                 address: "/group"
+            },
+            {
+                menu: "Usuário",
+                description: "Gestão de acesso e usuário",
+                address: "/user"
+            },
+            {
+                menu: "Usuário x Grupo",
+                description: "Definição de usuários por grupo",
+                address: "/user_group"
             }
         ]
     }
@@ -78,14 +90,18 @@ export const objects = {
 
 export const objectField = {
     columns: ["object", "field"],
-    rows: []
+    rows: [
+        { object: "PROJECT", field: "PLANT" },
+        { object: "PROJECT", field: "ACTVT" }
+    ]
 };
 
 export const groups = {
     columns: ["group", "groupName"],
     rows: [
         { group: "1", groupName: "Administrador" },
-        { group: "2", groupName: "Gerente de Projeto" }
+        { group: "2", groupName: "Gerente de Projeto" },
+        { group: "3", groupName: "Consultor" }
     ]
 };
 
@@ -100,14 +116,28 @@ export const projects = {
 export const authGroup = {
     columns: ["auth", "group", "object", "field", "value"],
     rows: [
-        { auth: "1", group: "1", object: "PROJECT", field: "PLANT", value: "3JBR" },
         { auth: "2", group: "1", object: "PROJECT", field: "ACTVT", value: "01" },
         { auth: "3", group: "1", object: "PROJECT", field: "ACTVT", value: "02" },
         { auth: "4", group: "1", object: "PROJECT", field: "ACTVT", value: "03" },
         { auth: "5", group: "1", object: "PROJECT", field: "ACTVT", value: "04" },
-        { auth: "6", group: "2", object: "PROJECT", field: "PLANT", value: "3JBR" },
-        { auth: "7", group: "2", object: "PROJECT", field: "ACTVT", value: "02" },
-        { auth: "8", group: "2", object: "PROJECT", field: "MANAGER", value: "" },
-        { auth: "9", group: "2", object: "PROJECT", field: "PROJECT", value: "1" },
+        { auth: "7", group: "2", object: "PROJECT", field: "ACTVT", value: "02" }
+    ]
+};
+
+export const users = {
+    columns: ["user", "userName"],
+    rows: [
+        { user: "1", userName: "Admin" },
+        { user: "2", userName: "João Teixeira" },
+        { user: "3", userName: "Wladimir Ferreira" }
+    ]
+};
+
+export const userGroup = {
+    columns: ["user", "group"],
+    rows: [
+        { user: "1", group: "1" },
+        { user: "2", group: "2" },
+        { user: "3", group: "3" }
     ]
 };

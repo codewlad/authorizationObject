@@ -1,29 +1,26 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { AuthGroupContext } from '../../context/authGroupContext';
+import { UserGroupContext } from '../../context/userGroupContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
-import { AuthGroupModal } from '../../components/AuthGroupModal';
+import { UserGroupModal } from '../../components/UserGroupModal';
 
 import { Container, Main } from './styles';
 
-export function AuthGroupPage() {
+export function UserGroupPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { authGroup, deleteRow, addRow, updateRow } = useContext(AuthGroupContext);
+	const { userGroup, deleteRow, addRow, updateRow } = useContext(UserGroupContext);
 
 	const columnLabels = {
-		auth: "Autenticação",
-		group: "Grupo",
-		object: "Objeto",
-		field: "Campo",
-		value: "Valor"
+		user: "Usuário",
+		group: "Grupo"
 	};
 
-	const idKeys = ["auth"];
+	const idKeys = ["user", "group"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -60,27 +57,24 @@ export function AuthGroupPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={authGroup}
+					data={userGroup}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
 				/>
 			</Main>
 
-			<AuthGroupModal
+			<UserGroupModal
 				visible={modalOpen}
 				onClose={closeModal}
 				onSubmit={handleSubmit}
 				values={formData}
 				setValues={setFormData}
 				fieldsConfig={{
-					auth: { type: 'text', source: '', label: 'Autorização' },
-					group: { type: 'select', source: 'groups', label: 'Grupo' },
-					object: { type: 'select', source: 'objects', label: 'Objeto' },
-					field: { type: 'select', source: 'fields', label: 'Campo' },
-					value: { type: 'text', source: '', label: 'Valor' }
+					object: { type: 'select', source: 'users', label: 'Usuário' },
+					field: { type: 'select', source: 'groups', label: 'Grupo' }
 				}}
-				disabledKeys={editing ? ['auth'] : []}
+				disabledKeys={editing ? ['user', 'group'] : []}
 			/>
 
 		</Container>

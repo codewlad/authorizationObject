@@ -5,6 +5,8 @@ import { GroupsProvider } from './groupsProvider';
 import { ProjectsProvider } from './projectsProvider';
 import { ObjectFieldProvider } from './objectFieldProvider';
 import { AuthGroupProvider } from './authGroupProvider';
+import { UsersProvider } from './usersProvider';
+import { UserGroupProvider } from './userGroupProvider';
 
 export function AppProviders({ children }) {
     return (
@@ -12,13 +14,17 @@ export function AppProviders({ children }) {
             <FieldsProvider>
                 <ObjectsProvider>
                     <GroupsProvider>
-                        <ProjectsProvider>
-                            <ObjectFieldProvider>
-                                <AuthGroupProvider>
-                                    {children}
-                                </AuthGroupProvider>
-                            </ObjectFieldProvider>
-                        </ProjectsProvider>
+                        <UsersProvider>
+                            <ProjectsProvider>
+                                <ObjectFieldProvider>
+                                    <UserGroupProvider>
+                                        <AuthGroupProvider>
+                                            {children}
+                                        </AuthGroupProvider>
+                                    </UserGroupProvider>
+                                </ObjectFieldProvider>
+                            </ProjectsProvider>
+                        </UsersProvider>
                     </GroupsProvider>
                 </ObjectsProvider>
             </FieldsProvider>

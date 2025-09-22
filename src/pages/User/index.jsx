@@ -1,29 +1,26 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { AuthGroupContext } from '../../context/authGroupContext';
+import { UsersContext } from '../../context/usersContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
-import { AuthGroupModal } from '../../components/AuthGroupModal';
+import { AddModal } from '../../components/AddModal';
 
 import { Container, Main } from './styles';
 
-export function AuthGroupPage() {
+export function UserPage() {
 	const location = useLocation();
 	const { title, description } = location.state || {};
 
-	const { authGroup, deleteRow, addRow, updateRow } = useContext(AuthGroupContext);
+	const { users, deleteRow, addRow, updateRow } = useContext(UsersContext);
 
 	const columnLabels = {
-		auth: "Autenticação",
-		group: "Grupo",
-		object: "Objeto",
-		field: "Campo",
-		value: "Valor"
+		user: "Usuário",
+		userName: "Nome do Usuário"
 	};
 
-	const idKeys = ["auth"];
+	const idKeys = ["user"];
 	const fieldKeys = Object.keys(columnLabels);
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -60,29 +57,23 @@ export function AuthGroupPage() {
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={authGroup}
+					data={users}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
 				/>
 			</Main>
 
-			<AuthGroupModal
+			<AddModal
 				visible={modalOpen}
 				onClose={closeModal}
 				onSubmit={handleSubmit}
+				fields={fieldKeys}
 				values={formData}
 				setValues={setFormData}
-				fieldsConfig={{
-					auth: { type: 'text', source: '', label: 'Autorização' },
-					group: { type: 'select', source: 'groups', label: 'Grupo' },
-					object: { type: 'select', source: 'objects', label: 'Objeto' },
-					field: { type: 'select', source: 'fields', label: 'Campo' },
-					value: { type: 'text', source: '', label: 'Valor' }
-				}}
-				disabledKeys={editing ? ['auth'] : []}
+				disabledKeys={editing ? idKeys : []}
+				idKeys={idKeys}
 			/>
-
 		</Container>
 	);
 }

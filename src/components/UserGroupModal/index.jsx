@@ -2,8 +2,9 @@ import { useContext } from 'react';
 import { Overlay, ModalContainer, Input, Button, ConteinerButton, Select } from './styles';
 
 import { UsersContext } from '../../context/usersContext';
+import { GroupsContext } from '../../context/groupsContext';
 
-export function ProjectModal({
+export function UserGroupModal({
   visible,
   onClose,
   onSubmit,
@@ -13,6 +14,7 @@ export function ProjectModal({
   disabledKeys = []
 }) {
   const { users } = useContext(UsersContext);
+  const { groups } = useContext(GroupsContext);
 
   if (!visible || !values) return null;
 
@@ -20,10 +22,13 @@ export function ProjectModal({
     switch (source) {
       case 'users':
         return Array.isArray(users?.rows) ? users.rows.map((obj) => obj.user) : [];
+      case 'groups':
+        return Array.isArray(groups?.rows) ? groups.rows.map((f) => f.group) : [];
       default:
         return [];
     }
   };
+
 
   const handleChange = (key, value) => {
     setValues((prev) => ({ ...prev, [key]: value }));
