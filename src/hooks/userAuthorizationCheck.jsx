@@ -20,12 +20,18 @@ export function useAuthorizationCheck({ authRequest, userLogged }) {
         const userGroups = getUserGroups(user, userGroup);
 
         if (userGroups.length === 0) {
+            const missing = authRequest.Fields.map(pair => ({
+                Object: authRequest.AuthObject,
+                Group: null,
+                Field: pair.Field,
+                Value: pair.Value
+            }));
+
             return {
                 Authorized: false,
                 AuthorizedGroup: null,
                 Authorizations: [],
-                MissingAuthorizations: [],
-                Reason: "Usuário não pertence a nenhum grupo."
+                MissingAuthorizations: missing
             };
         }
 
@@ -42,7 +48,7 @@ export function useAuthorizationCheck({ authRequest, userLogged }) {
                 groupedByGroup[groupKey].some(ag =>
                     ag.object === authRequest.AuthObject &&
                     ag.field === pair.Field &&
-                    ag.value === pair.Value
+                    (ag.value === pair.Value || ag.value === "*")
                 )
             );
             if (isValid) {
@@ -61,7 +67,7 @@ export function useAuthorizationCheck({ authRequest, userLogged }) {
                     const found = groupItems.some(ag =>
                         ag.object === authRequest.AuthObject &&
                         ag.field === pair.Field &&
-                        ag.value === pair.Value
+                        (ag.value === pair.Value || ag.value === "*")
                     );
 
                     if (!found) {
@@ -89,6 +95,7 @@ export function useAuthorizationCheck({ authRequest, userLogged }) {
             Authorizations: groupAuthorizations,
             MissingAuthorizations: missing
         };
+
     }, [authRequest, authGroup, userGroup, userLogged]);
 
     return result;

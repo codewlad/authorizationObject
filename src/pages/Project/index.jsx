@@ -22,7 +22,6 @@ export function ProjectPage() {
 
 	const { projects, deleteRow, addRow, updateRow } = useContext(ProjectsContext);
 
-	// Configurações de campos
 	const columnLabels = {
 		project: "Projeto",
 		projectName: "Nome do projeto",
@@ -52,7 +51,8 @@ export function ProjectPage() {
 		AuthObject: "PROJECT",
 		User: 0,
 		Fields: [
-			{ Field: "ACTVT", Value: "02" }
+			{ Field: "ACTVT", Value: "02" },
+			{ Field: "ACTVT", Value: "01" }
 		]
 	};
 
@@ -69,20 +69,6 @@ export function ProjectPage() {
 		setAuthModalVisible(false);
 		navigate('/');
 	};
-
-	/*// Filtro
-	const filteredProjects = useMemo(() => {
-		if (!result?.Authorized) return { ...projects, rows: [] };
-
-		const hasManagerField = result.Authorizations.some(auth => auth.Field === "MANAGER");
-
-		const rows = hasManagerField
-			? projects.rows.filter(row => row.manager === String(userLogged))
-			: [...projects.rows];
-
-		return { ...projects, rows };
-	}, [projects, result]);
-	*/
 
 	const handleSubmit = (data) => {
 		editing ? updateRow(data) : addRow(data);

@@ -1,4 +1,4 @@
-export const userLogged = 4;
+export const userLogged = 1;
 
 export const categories = [
     {
@@ -116,11 +116,8 @@ export const projects = {
 export const authGroup = {
     columns: ["auth", "group", "object", "field", "value"],
     rows: [
-        { auth: "2", group: "1", object: "PROJECT", field: "ACTVT", value: "01" },
-        { auth: "3", group: "1", object: "PROJECT", field: "ACTVT", value: "02" },
-        { auth: "4", group: "1", object: "PROJECT", field: "ACTVT", value: "03" },
-        { auth: "5", group: "1", object: "PROJECT", field: "ACTVT", value: "04" },
-        { auth: "7", group: "2", object: "PROJECT", field: "ACTVT", value: "02" }
+        { auth: "1", group: "1", object: "PROJECT", field: "ACTVT", value: "*" },
+        { auth: "2", group: "2", object: "PROJECT", field: "ACTVT", value: "02" }
     ]
 };
 
