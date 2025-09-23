@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-	display: flex;
+	display: ${({ $display }) => ($display ? 'flex' : 'none')};
 	align-items: center;
 	justify-content: right;
 `;
 
 export const Button = styled.div`
-	display: ${({ $display }) => ($display ? 'flex' : 'none')};
+	display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.35rem;

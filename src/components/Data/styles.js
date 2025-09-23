@@ -46,6 +46,7 @@ export const BaseData = styled.div`
 export const HeadData = styled.div`
 	display: flex;
 	flex: 1;
+	gap: 0.4rem;
 
 	width: 100%;
 	background-color: #303030;
@@ -81,6 +82,7 @@ export const BodyData = styled.div`
 
 export const Row = styled.div`
 	display: flex;
+	column-gap: 0.4rem;
 
 	width: 100%;
 
@@ -121,6 +123,7 @@ export const Row = styled.div`
 export const RowData = styled.div`
 	display: flex;
 	width: 100%;
+	column-gap: 0.4rem;
 	row-gap: 1rem;
 
 	@media (max-width: 1000px) {
@@ -132,10 +135,11 @@ export const ButtonsData = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	gap: 0.4rem;
-	padding: 0 1rem;
+	padding-right: 0.4rem;
 `
 
 export const Spacer = styled.div`
-	width: 10.4rem;
-	padding: 0 1rem;
+	display: ${({ $display }) => ($display ? 'flex' : 'none')};
+	width: 4.2rem;
+	padding: 0 0.5rem;
 `

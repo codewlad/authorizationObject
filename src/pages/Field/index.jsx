@@ -56,6 +56,7 @@ export function FieldPage() {
 					title={title}
 					description={description}
 					onAdd={() => openModal()}
+					canCreate={true}
 				/>
 				<Data
 					columnLabels={columnLabels}
@@ -63,6 +64,8 @@ export function FieldPage() {
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
+					canUpdate={true}
+					canDelete={true}
 				/>
 			</Main>
 

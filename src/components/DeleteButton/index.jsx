@@ -5,8 +5,8 @@ import { Button, Container } from './styles';
 export function DeleteButton({ display, onClick }) {
 
 	return (
-		<Container>
-			<Button $display={display} onClick={onClick}><TfiTrash /></Button>
+		<Container $display={display}>
+			<Button onClick={onClick}><TfiTrash /></Button>
 		</Container>
 	);
 }

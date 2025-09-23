@@ -54,6 +54,7 @@ export function ActivityPage() {
 					title={title}
 					description={description}
 					onAdd={() => openModal()}
+					canCreate={true}
 				/>
 				<Data
 					columnLabels={columnLabels}
@@ -61,6 +62,8 @@ export function ActivityPage() {
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
+					canUpdate={true}
+					canDelete={true}
 				/>
 			</Main>
 

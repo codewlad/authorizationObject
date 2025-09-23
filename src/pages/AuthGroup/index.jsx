@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { AuthGroupContext } from '../../context/authGroupContext';
+import { GroupsContext } from '../../context/groupsContext';
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
@@ -14,11 +15,12 @@ export function AuthGroupPage() {
 	const { title, description } = location.state || {};
 
 	const { authGroup, deleteRow, addRow, updateRow } = useContext(AuthGroupContext);
+	const { groups } = useContext(GroupsContext);
 
 	const columnLabels = {
 		auth: "Autenticação",
 		group: "Grupo",
-		object: "Objeto",
+		object: "Objeto de Autorização",
 		field: "Campo",
 		value: "Valor"
 	};
@@ -49,6 +51,20 @@ export function AuthGroupPage() {
 		closeModal();
 	};
 
+	const groupNameMap = Array.isArray(groups?.rows)
+		? groups.rows.reduce((acc, item) => {
+			acc[item.group] = item.groupName;
+			return acc;
+		}, {})
+		: {};
+
+	const displayRows = Array.isArray(authGroup?.rows)
+		? authGroup.rows.map(row => ({
+			...row,
+			group: groupNameMap[row.group] || row.group
+		}))
+		: [];
+
 	return (
 		<Container>
 			<Header backButtonDisplay />
@@ -57,13 +73,16 @@ export function AuthGroupPage() {
 					title={title}
 					description={description}
 					onAdd={() => openModal()}
+					canCreate={true}
 				/>
 				<Data
 					columnLabels={columnLabels}
-					data={authGroup}
+					data={{ columns: authGroup.columns, rows: displayRows }}
 					onDelete={(keyObj) => deleteRow(keyObj)}
 					onEdit={openModal}
 					idKeys={idKeys}
+					canUpdate={true}
+					canDelete={true}
 				/>
 			</Main>
 
@@ -82,7 +101,6 @@ export function AuthGroupPage() {
 				}}
 				disabledKeys={editing ? ['auth'] : []}
 			/>
-
 		</Container>
 	);
 }

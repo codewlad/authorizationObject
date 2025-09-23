@@ -5,8 +5,8 @@ import { Button, Container } from './styles';
 export function EditButton({ display, onClick }) {
 
 	return (
-		<Container>
-			<Button $display={display} onClick={onClick}><FiEdit /></Button>
+		<Container $display={display}>
+			<Button onClick={onClick}><FiEdit /></Button>
 		</Container>
 	);
 }

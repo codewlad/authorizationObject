@@ -57,6 +57,18 @@ export function ProjectPage() {
 
 	const result = useAuthorizationCheck({ authRequest, userLogged });
 
+	const canCreate = result?.Authorizations?.some(
+		f => f.Field === "ACTVT" && (f.Value === "01" || f.Value === "*")
+	);
+
+	const canUpdate = result?.Authorizations?.some(
+		f => f.Field === "ACTVT" && (f.Value === "03" || f.Value === "*")
+	);
+
+	const canDelete = result?.Authorizations?.some(
+		f => f.Field === "ACTVT" && (f.Value === "04" || f.Value === "*")
+	);
+
 	useEffect(() => {
 		if (result?.Authorized === false && !modalAlreadyShown) {
 			setAuthModalVisible(true);
@@ -74,6 +86,24 @@ export function ProjectPage() {
 		closeModal();
 	};
 
+	// Filtro
+	const filteredProjects = useMemo(() => {
+		if (!result?.Authorized || !Array.isArray(projects?.rows)) {
+			return { columns: projects?.columns || [], rows: [] };
+		}
+
+		const managerField = result?.Authorizations?.find(f => f.Field === "F_MANAGER");
+
+		if (managerField) {
+			const filteredRows = projects.rows.filter(
+				project => project.manager === managerField.Value
+			);
+			return { columns: projects.columns, rows: filteredRows };
+		}
+
+		return projects;
+	}, [projects, result]);
+
 	return (
 		<Container>
 			<Header backButtonDisplay />
@@ -82,6 +112,7 @@ export function ProjectPage() {
 					title={title}
 					description={description}
 					onAdd={openModal}
+					canCreate={canCreate}
 				/>
 
 				<AuthorizationStatusModal
@@ -93,11 +124,14 @@ export function ProjectPage() {
 				{result?.Authorized && (
 					<Data
 						columnLabels={columnLabels}
-						data={projects}
+						data={filteredProjects}
 						onDelete={deleteRow}
 						onEdit={openModal}
 						idKeys={idKeys}
+						canUpdate={canUpdate}
+						canDelete={canDelete}
 					/>
+
 				)}
 			</Main>
 

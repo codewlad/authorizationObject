@@ -13,7 +13,7 @@ import {
 import { DeleteButton } from '../../components/DeleteButton';
 import { EditButton } from '../../components/EditButton';
 
-export function Data({ columnLabels, data, onDelete, onEdit, idKeys = [] }) {
+export function Data({ columnLabels, data, onDelete, onEdit, idKeys = [], canUpdate, canDelete }) {
 	const { columns = [], rows = [] } = data;
 
 	const getKeyObject = (item) =>
@@ -26,7 +26,8 @@ export function Data({ columnLabels, data, onDelete, onEdit, idKeys = [] }) {
 					{columns.map((col) => (
 						<Column key={col}>{columnLabels[col] || col}</Column>
 					))}
-					<Spacer />
+					<Spacer $display={canDelete} />
+					<Spacer $display={canUpdate} />
 				</HeadData>
 
 				<BodyData>
@@ -42,11 +43,11 @@ export function Data({ columnLabels, data, onDelete, onEdit, idKeys = [] }) {
 
 							<ButtonsData>
 								<DeleteButton
-									display
+									display={canDelete}
 									onClick={() => onDelete(getKeyObject(item))}
 								/>
 								<EditButton
-									display
+									display={canUpdate}
 									onClick={() => onEdit(item)}
 								/>
 							</ButtonsData>
