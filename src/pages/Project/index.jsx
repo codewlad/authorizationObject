@@ -51,8 +51,7 @@ export function ProjectPage() {
 		AuthObject: "PROJECT",
 		User: 0,
 		Fields: [
-			{ Field: "ACTVT", Value: "02" },
-			{ Field: "ACTVT", Value: "01" }
+			{ Field: "ACTVT", Value: "02" }
 		]
 	};
 

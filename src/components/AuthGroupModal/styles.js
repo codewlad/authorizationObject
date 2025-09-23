@@ -15,7 +15,7 @@ export const ModalContainer = styled.div`
   background: #4b4b4b;
   padding: 2rem;
   border-radius: 8px;
-  width: 400px;
+  width: 600px;
 `;
 
 export const Input = styled.input`
@@ -47,6 +47,7 @@ export const ConteinerButton = styled.div`
   justify-content: flex-end;
   gap: 2rem;
   width: 100%;
+  margin-top: auto;
 `
 
 export const Button = styled.button`
