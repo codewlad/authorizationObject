@@ -1,31 +1,36 @@
-export const userLogged = 3;
+export const userLogged = 1;
 
 export const categories = [
     {
         categoryName: "Autorização",
         menus: [
             {
-                menu: "Campos",
+                menu: "1",
+                name: "Campos",
                 description: "Campos do objeto",
                 address: "/field"
             },
             {
-                menu: "Objetos",
+                menu: "2",
+                name: "Objetos",
                 description: "Objetos de autorização",
                 address: "/object"
             },
             {
-                menu: "Atividade",
+                menu: "3",
+                name: "Atividade",
                 description: "Cadastro de atividades",
                 address: "/activity"
             },
             {
-                menu: "Objeto x Campo",
+                menu: "4",
+                name: "Objeto x Campo",
                 description: "Definição de campos por objeto",
                 address: "/object_field"
             },
             {
-                menu: "Grupo de Autorização",
+                menu: "5",
+                name: "Grupo de Autorização",
                 description: "Definição das autorizações por grupo",
                 address: "/auth_group"
             }
@@ -35,7 +40,8 @@ export const categories = [
         categoryName: "Projeto",
         menus: [
             {
-                menu: "Projeto",
+                menu: "6",
+                name: "Projeto",
                 description: "Criação de projetos",
                 address: "/project"
             }
@@ -45,17 +51,20 @@ export const categories = [
         categoryName: "Gestão de Acesso",
         menus: [
             {
-                menu: "Grupo de acesso",
-                description: "Cadastro de grupo de acesso",
+                menu: "7",
+                name: "Grupo",
+                description: "Cadastro de grupo",
                 address: "/group"
             },
             {
-                menu: "Usuário",
+                menu: "8",
+                name: "Usuário",
                 description: "Gestão de acesso e usuário",
                 address: "/user"
             },
             {
-                menu: "Usuário x Grupo",
+                menu: "9",
+                name: "Usuário x Grupo",
                 description: "Definição de usuários por grupo",
                 address: "/user_group"
             }
@@ -69,7 +78,8 @@ export const activities = {
         { actvt: "01", actvtName: "Criar" },
         { actvt: "02", actvtName: "Ler" },
         { actvt: "03", actvtName: "Atualizar" },
-        { actvt: "04", actvtName: "Deletar" }
+        { actvt: "04", actvtName: "Deletar" },
+        { actvt: "*", actvtName: "Todos" }
     ]
 };
 
@@ -77,14 +87,16 @@ export const fields = {
     columns: ["field", "fieldName", "ref_tab", "ref_column"],
     rows: [
         { field: "PLANT", fieldName: "Planta", ref_tab: "", ref_column: "" },
-        { field: "ACTVT", fieldName: "Atividade", ref_tab: "activities", ref_column: "actvt" }
+        { field: "ACTVT", fieldName: "Atividade", ref_tab: "activities", ref_column: "actvt" },
+        { field: "F_MENU", fieldName: "Filtro de menu", ref_tab: "", ref_column: "" }
     ]
 };
 
 export const objects = {
     columns: ["object", "objectName"],
     rows: [
-        { object: "PROJECT", objectName: "Projeto" }
+        { object: "PROJECT", objectName: "Projeto" },
+        { object: "Z_MENU", objectName: "Menu" }
     ]
 };
 
@@ -92,7 +104,8 @@ export const objectField = {
     columns: ["object", "field"],
     rows: [
         { object: "PROJECT", field: "PLANT" },
-        { object: "PROJECT", field: "ACTVT" }
+        { object: "PROJECT", field: "ACTVT" },
+        { object: "Z_MENU", field: "F_MENU" }
     ]
 };
 
@@ -116,8 +129,17 @@ export const projects = {
 export const authGroup = {
     columns: ["auth", "group", "object", "field", "value"],
     rows: [
-        { auth: "1", group: "1", object: "PROJECT", field: "ACTVT", value: "*" },
-        { auth: "2", group: "2", object: "PROJECT", field: "ACTVT", value: "02" }
+        { auth: "1", group: "1", object: "Z_MENU", field: "ACTVT", value: "02" },
+        { auth: "2", group: "1", object: "Z_MENU", field: "F_MENU", value: "1" },
+        { auth: "3", group: "1", object: "Z_MENU", field: "F_MENU", value: "2" },
+        { auth: "4", group: "1", object: "Z_MENU", field: "F_MENU", value: "3" },
+        { auth: "5", group: "1", object: "Z_MENU", field: "F_MENU", value: "4" },
+        { auth: "6", group: "1", object: "Z_MENU", field: "F_MENU", value: "5" },
+        { auth: "7", group: "1", object: "Z_MENU", field: "F_MENU", value: "6" },
+        { auth: "8", group: "1", object: "Z_MENU", field: "F_MENU", value: "7" },
+        { auth: "9", group: "1", object: "Z_MENU", field: "F_MENU", value: "8" },
+        { auth: "11", group: "1", object: "PROJECT", field: "ACTVT", value: "*" },
+        { auth: "12", group: "2", object: "PROJECT", field: "ACTVT", value: "02" }
     ]
 };
 

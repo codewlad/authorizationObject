@@ -1,8 +1,13 @@
 import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { activities, categories } from '../../database/db';
+
 import { AuthGroupContext } from '../../context/authGroupContext';
 import { GroupsContext } from '../../context/groupsContext';
+import { ObjectsContext } from '../../context/objectsContext';
+import { FieldsContext } from '../../context/fieldsContext';
+
 import { Header } from '../../components/Header';
 import { HeaderMain } from '../../components/HeaderMain';
 import { Data } from '../../components/Data';
@@ -16,6 +21,8 @@ export function AuthGroupPage() {
 
 	const { authGroup, deleteRow, addRow, updateRow } = useContext(AuthGroupContext);
 	const { groups } = useContext(GroupsContext);
+	const { objects } = useContext(ObjectsContext);
+	const { fields } = useContext(FieldsContext);
 
 	const columnLabels = {
 		auth: "Autenticação",
@@ -58,11 +65,52 @@ export function AuthGroupPage() {
 		}, {})
 		: {};
 
+	const objectNameMap = Array.isArray(objects?.rows)
+		? objects.rows.reduce((acc, item) => {
+			acc[item.object] = item.objectName;
+			return acc;
+		}, {})
+		: {};
+
+	const fieldNameMap = Array.isArray(fields?.rows)
+		? fields.rows.reduce((acc, item) => {
+			acc[item.field] = item.fieldName;
+			return acc;
+		}, {})
+		: {};
+
+	const menuNameMap = categories
+		.flatMap(category => category.menus)
+		.reduce((acc, menu) => {
+			acc[menu.menu] = menu.name;
+			return acc;
+		}, {});
+
+	const activityNameMap = Array.isArray(activities?.rows)
+		? activities.rows.reduce((acc, item) => {
+			acc[item.actvt] = item.actvtName;
+			return acc;
+		}, {})
+		: {};
+
 	const displayRows = Array.isArray(authGroup?.rows)
-		? authGroup.rows.map(row => ({
-			...row,
-			group: groupNameMap[row.group] || row.group
-		}))
+		? authGroup.rows.map(row => {
+			let displayValue = row.value;
+
+			if (row.field === "F_MENU") {
+				displayValue = menuNameMap[row.value] || row.value;
+			} else if (row.field === "ACTVT") {
+				displayValue = activityNameMap[row.value] || row.value;
+			}
+
+			return {
+				...row,
+				object: objectNameMap[row.object] || row.object,
+				group: groupNameMap[row.group] || row.group,
+				field: fieldNameMap[row.field] || row.field,
+				value: displayValue
+			};
+		})
 		: [];
 
 	return (

@@ -10,7 +10,7 @@ export function HomeSection({ title, menus }) {
 					menus.length > 0 &&
 					menus.map((item, index) =>
 						<MenuButton
-							title={item.menu}
+							title={item.name}
 							description={item.description}
 							address={item.address}
 							key={index}

@@ -92,12 +92,15 @@ export function ProjectPage() {
 			return { columns: projects?.columns || [], rows: [] };
 		}
 
-		const managerField = result?.Authorizations?.find(f => f.Field === "F_MANAGER");
+		const managerFields = result?.Authorizations?.filter(f => f.Field === "F_MANAGER");
 
-		if (managerField) {
-			const filteredRows = projects.rows.filter(
-				project => project.manager === managerField.Value
+		if (Array.isArray(managerFields) && managerFields.length > 0) {
+			const managerValues = managerFields.map(f => f.Value);
+
+			const filteredRows = projects.rows.filter(project =>
+				managerValues.includes(project.manager)
 			);
+
 			return { columns: projects.columns, rows: filteredRows };
 		}
 

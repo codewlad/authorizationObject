@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Header } from '../../components/Header';
 import { HomeSection } from '../../components/HomeSection';
@@ -6,27 +7,60 @@ import { NavButton } from '../../components/NavButton';
 import { Search } from '../../components/Search';
 import { Container } from './styles';
 
-import { categories } from '../../database/db'
+import { categories, userLogged } from '../../database/db';
+import { useAuthorizationCheck } from '../../hooks/userAuthorizationCheck';
+import { AuthorizationStatusModal } from '../../components/AuthorizationStatusModal';
 
 export function HomePage() {
-
+	const navigate = useNavigate();
+	const [authModalVisible, setAuthModalVisible] = useState(false);
+	const [modalAlreadyShown, setModalAlreadyShown] = useState(false);
 	const [search, setSearch] = useState("");
 
-	const filteredCategories = categories.map((categorie) => {
-		const filteredMenus = categorie.menus.filter((menuItem) =>
-			menuItem.menu.toLowerCase().includes(search.toLowerCase()) ||
-			menuItem.description.toLowerCase().includes(search.toLowerCase())
-		);
+	// Autorizações necessárias
+	const authRequest = {
+		AuthObject: "Z_MENU",
+		User: 0,
+		Fields: [
+			{ Field: "ACTVT", Value: "02" }
+		]
+	};
 
-		return {
-			...categorie,
-			menus: filteredMenus
-		};
-	}).filter(categorie => categorie.menus.length > 0);
+	const result = useAuthorizationCheck({ authRequest, userLogged });
 
+	// Filtro combinado: autorizações + busca
+	const filteredCatMenus = useMemo(() => {
+		const filterValues = result?.Authorizations
+			?.filter(f => f.Field === "F_MENU")
+			.map(f => f.Value);
+
+		if (!filterValues) return [];
+
+		return categories
+			.map(category => {
+				const filteredMenus = category.menus
+					.filter(menu => filterValues.includes(menu.menu))
+					.filter(menu =>
+						menu.name.toLowerCase().includes(search.toLowerCase()) ||
+						menu.description.toLowerCase().includes(search.toLowerCase())
+					);
+
+				if (filteredMenus.length > 0) {
+					return {
+						categoryName: category.categoryName,
+						menus: filteredMenus
+					};
+				}
+
+				return null;
+			})
+			.filter(category => category !== null);
+	}, [categories, result, search]);
+
+	// Referências para scroll
 	const sectionRefs = useRef({});
 
-	filteredCategories.forEach((cat) => {
+	filteredCatMenus.forEach((cat) => {
 		if (!sectionRefs.current[cat.categoryName]) {
 			sectionRefs.current[cat.categoryName] = React.createRef();
 		}
@@ -45,23 +79,44 @@ export function HomePage() {
 		}
 	};
 
+	const closeAuthModalAndRedirect = () => {
+		setAuthModalVisible(false);
+		navigate('/');
+	};
+
+	useEffect(() => {
+		if (result?.Authorized === false && !modalAlreadyShown) {
+			setAuthModalVisible(true);
+			setModalAlreadyShown(true);
+		}
+	}, [result, modalAlreadyShown]);
+
 	return (
 		<Container>
-			<Header backButtonDisplay={false} />
-			<Search
-				placeholder={'Digite um texto a ser buscado...'}
-				value={search}
-				onChange={(e) => setSearch(e.target.value)}
+			<AuthorizationStatusModal
+				visible={authModalVisible}
+				onClose={closeAuthModalAndRedirect}
+				result={result}
 			/>
-			<NavButton categories={filteredCategories} onNavigate={scrollToCategory} />
-			{filteredCategories.map((categorie, index) => (
-				<div ref={sectionRefs.current[categorie.categoryName]} key={index}>
-					<HomeSection
-						title={categorie.categoryName}
-						menus={categorie.menus}
+			<Header backButtonDisplay={false} />
+			{result?.Authorized && (
+				<>
+					<Search
+						placeholder={'Digite um texto a ser buscado...'}
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
 					/>
-				</div>
-			))}
+					<NavButton categories={filteredCatMenus} onNavigate={scrollToCategory} />
+					{filteredCatMenus.map((categorie, index) => (
+						<div ref={sectionRefs.current[categorie.categoryName]} key={index}>
+							<HomeSection
+								title={categorie.categoryName}
+								menus={categorie.menus}
+							/>
+						</div>
+					))}
+				</>
+			)}
 		</Container>
 	);
 }

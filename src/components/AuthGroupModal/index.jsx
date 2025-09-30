@@ -12,6 +12,7 @@ import { GroupsContext } from '../../context/groupsContext';
 import { ObjectsContext } from '../../context/objectsContext';
 import { ObjectFieldContext } from '../../context/objectFieldContext';
 import { AuthGroupContext } from '../../context/authGroupContext';
+import { FieldsContext } from '../../context/fieldsContext';
 import { AddModal } from '../AddModal';
 
 export function AuthGroupModal({
@@ -25,6 +26,7 @@ export function AuthGroupModal({
   const { objects } = useContext(ObjectsContext);
   const { objectField } = useContext(ObjectFieldContext);
   const { authGroup } = useContext(AuthGroupContext);
+  const { fields } = useContext(FieldsContext);
 
   const [step, setStep] = useState(1);
   const [addGroupModalOpen, setAddGroupModalOpen] = useState(false);
@@ -86,7 +88,6 @@ export function AuthGroupModal({
               }}
             />
           </div>
-
 
           {step === 1 && (
             <>
@@ -153,11 +154,15 @@ export function AuthGroupModal({
                 <option value="">Selecione</option>
                 {objectField.rows
                   .filter((f) => f.object === values.object)
-                  .map((f) => (
-                    <option key={f.field} value={f.field}>
-                      {f.field}
-                    </option>
-                  ))}
+                  .map((f) => {
+                    const fieldInfo = fields.rows.find((field) => field.field === f.field);
+                    const label = fieldInfo?.fieldName || f.field;
+                    return (
+                      <option key={f.field} value={f.field}>
+                        {label}
+                      </option>
+                    );
+                  })}
               </Select>
 
               <label>Informe o Valor</label>
