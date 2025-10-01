@@ -34,16 +34,22 @@ export function HomePage() {
 			?.filter(f => f.Field === "F_MENU")
 			.map(f => f.Value);
 
-		if (!filterValues) return [];
+		const shouldFilter = filterValues && filterValues.length > 0;
 
 		return categories
 			.map(category => {
 				const filteredMenus = category.menus
-					.filter(menu => filterValues.includes(menu.menu))
-					.filter(menu =>
-						menu.name.toLowerCase().includes(search.toLowerCase()) ||
-						menu.description.toLowerCase().includes(search.toLowerCase())
-					);
+					.filter(menu => {
+						// Se houver F_MENU, filtra pelos valores autorizados
+						if (shouldFilter && !filterValues.includes(menu.menu)) {
+							return false;
+						}
+						// Aplica filtro de busca
+						return (
+							menu.name.toLowerCase().includes(search.toLowerCase()) ||
+							menu.description.toLowerCase().includes(search.toLowerCase())
+						);
+					});
 
 				if (filteredMenus.length > 0) {
 					return {

@@ -1,4 +1,4 @@
-export const userLogged = 1;
+export const userLogged = 2;
 
 export const categories = [
     {
